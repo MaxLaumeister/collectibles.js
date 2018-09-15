@@ -1,5 +1,7 @@
 "use strict";
 
+const SCRIPT_DIRECTORY = document.currentScript.src.substring(0, document.currentScript.src.lastIndexOf("/"));
+
 // Web animation API polyfill
 
 let animationTestEl = document.createElement("div");
@@ -16,14 +18,12 @@ function CollectiblesJS(config) {
         numShards = parseInt(numShards, 10);
         let secretURLHex = secrets.str2hex(secretURL);
         let shares = secrets.share(secretURLHex, numShards, numShards);
-        console.log("Shares", shares);
         return shares;
     }
 
     CollectiblesJS.redeemSecrets = function(secretsArray) {
         let secretHex = secrets.combine(secretsArray);
         let secret = secrets.hex2str(secretHex);
-        console.log("Secret", secret);
         return secret;
     }
 
@@ -174,7 +174,7 @@ function CollectiblesJS(config) {
     
     // Add question mark to holder
     
-    holder.insertAdjacentHTML('beforeend', '<img class="collectible-help" src="' + SCRIPT_DIRECTORY + '/question-circle.svg" title="Find all 5 keys on this website!">');
+    holder.insertAdjacentHTML('beforeend', '<div class="collectible-help" aria-label="Find all 5 keys on this website!" data-microtip-position="right" role="tooltip"></div>');
     
     // Upon initial page load, user may already have all items
     // So we do this check after initialization
