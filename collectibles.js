@@ -11,22 +11,22 @@ if (!animationTestEl.animate) {
 
 // Collectibles.js
 
-function collectibleCreateSecrets(secretURL, shards) {
-    let secretURLHex = secrets.str2hex(secretURL);
-    let shares = secrets.share(secretURLHex, 5, 5);
-    console.log("Shares", shares);
-    return shares;
-}
-
-function collectibleRedeemSecrets(secretsArray) {
-    let secretHex = secrets.combine(secretsArray);
-    let secret = secrets.hex2str(secretHex);
-    console.log("Secret", secret);
-    return secret;
-}
-
 function CollectiblesJS(config) {
-    
+    CollectiblesJS.createSecrets = function(secretURL, numShards) {
+        numShards = parseInt(numShards, 10);
+        let secretURLHex = secrets.str2hex(secretURL);
+        let shares = secrets.share(secretURLHex, numShards, numShards);
+        console.log("Shares", shares);
+        return shares;
+    }
+
+    CollectiblesJS.redeemSecrets = function(secretsArray) {
+        let secretHex = secrets.combine(secretsArray);
+        let secret = secrets.hex2str(secretHex);
+        console.log("Secret", secret);
+        return secret;
+    }
+
     const INSTALL_ID = config.installID || 1;
     const KEY_VERSION = config.itemVersion || 1;
     const STORAGE = config.persistent ? localStorage : sessionStorage;
@@ -68,7 +68,7 @@ function CollectiblesJS(config) {
     function notifyItemsChanged(itemArray) {
         // If all items are collected, grant secret
         function grantSecret(itemArray) {
-            let secret = collectibleRedeemSecrets(itemArray);
+            let secret = CollectiblesJS.redeemSecrets(itemArray);
             let secretLinkEl = document.getElementById("collectible-secret-link");
             secretLinkEl.href = secret;
             secretLinkEl.addEventListener("click", function(e) {
@@ -110,27 +110,28 @@ function CollectiblesJS(config) {
             let spot_offset = itemSpots[keyid].getBoundingClientRect();
             let coin_spot_offset = {top: coin_offset.top - spot_offset.top, left: coin_offset.left - spot_offset.left};
             
-            item.removeAttribute("style");
-            item.style.visibility = "visible";
-            item.style.position = "absolute";
-            item.style.top = "0";
-            item.style.left = "0";
-            item.style["pointer-events"] = "none";
-            item.classList.add("collectible-item-collected");
+            let itemDup = item.cloneNode(true);
+            item.style.visibility = "hidden";
+            itemDup.removeAttribute("style");
+            itemDup.style.visibility = "visible";
+            itemDup.style.position = "absolute";
+            itemDup.style.top = "0";
+            itemDup.style.left = "0";
+            itemDup.style["pointer-events"] = "none";
+            itemDup.classList.add("collectible-item-collected");
+            itemSpots[keyid].appendChild(itemDup);
             
-            item.animate({
+            itemDup.animate({
                 transform: ["translate(" + coin_spot_offset.left + "px, " + coin_spot_offset.top + "px)", "none"]
             }, {
                 duration: 500,
                 easing: "ease-in-out"
             });
             
-            itemSpots[keyid].appendChild(e.target);
-            
             // Record key in storage
             
             let collectedItems = getCollectedItems();
-            collectedItems[keyid] = item.dataset.key;
+            collectedItems[keyid] = itemDup.dataset.key;
             setCollectedItems(collectedItems);
             
             notifyItemsChanged(collectedItems);
