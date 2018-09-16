@@ -140,7 +140,7 @@ function CollectiblesJS(config) {
             window.clearTimeout(presentingTimeout);
             presentingTimeout = window.setTimeout(function() {
                 drawer.classList.remove("presenting");
-            }, 2000);
+            }, 3000);
         });
     }
     
