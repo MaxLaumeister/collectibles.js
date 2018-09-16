@@ -10,6 +10,18 @@ For more info, see the project page:
 
 https://www.maxlaumeister.com/collectibles-js/
 
+## Compiling
+
+You only need to recompile the minified js/css bundles if you make changes to the library. If you aren't making changes to the library, just grab the `collectibles.min.js` and `collectibles.min.css` files from the `dist` folder.
+
+1. Install `node`, `npm`, and `gulp-cli`
+
+2. `cd` into the `collectibles.js` repo
+
+3. Run `npm install`
+
+4. Run `gulp`
+
 ## Licenses
 
 `collectibles.js` is licensed under the MIT license, see included `LICENSE.md` file for details.
