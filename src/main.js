@@ -2,15 +2,6 @@
 
 const SCRIPT_DIRECTORY = document.currentScript.src.substring(0, document.currentScript.src.lastIndexOf("/"));
 
-// Web animation API polyfill
-
-let animationTestEl = document.createElement("div");
-if (!animationTestEl.animate) {
-    let polyfill = document.createElement('script');
-    polyfill.setAttribute('src', SCRIPT_DIRECTORY + '/web-animations.min.js');
-    document.head.appendChild(polyfill);
-}
-
 // Collectibles.js
 
 function CollectiblesJS(config) {
@@ -150,7 +141,7 @@ function CollectiblesJS(config) {
     <div id="collectible-item-drawer">
         <div id="collectible-item-chest-holder">
             <a id="collectible-secret-link">
-                <img id="collectible-item-chest" src="` + SCRIPT_DIRECTORY + `/chest.svg"><br>
+                <img id="collectible-item-chest" src="` + SCRIPT_DIRECTORY + `/img/chest.svg"><br>
                 Click to<br>collect reward!
             </a>
         </div>
