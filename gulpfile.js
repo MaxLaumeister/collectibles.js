@@ -6,7 +6,7 @@ var svgo = require('gulp-svgo');
 var sourcemaps = require('gulp-sourcemaps');
 
 gulp.task('sass', function() {
-  gulp.src(['node_modules/microtip.css', 'src/*.css'])
+  gulp.src(['node_modules/microtip/microtip.css', 'src/*.css'])
   .pipe(concat('collectibles.min.css'))
   .pipe(sass({outputStyle: 'compressed'}))
   .pipe(gulp.dest('dist'))
