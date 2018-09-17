@@ -14,7 +14,7 @@
     bottom: 0;
     right: 0;
     background-image: url(img/kenney-key.svg);
-    background-repeat:no-repeat;
+    background-repeat: no-repeat;
     background-position: center center;
     animation: MoveUpDown 2s ease infinite;
     pointer-events: none;
@@ -59,7 +59,7 @@
     right: 0;
     bottom: 0;
     background-image: url(img/kenney-key.svg);
-    background-repeat:no-repeat;
+    background-repeat: no-repeat;
     background-position: center center;
     filter: grayscale(100%);
 }
@@ -129,7 +129,10 @@
     display: inline-block;
     width: 40px;
     height: 40px;
-    object-fit: contain;
+    background-image: url(img/chest.svg);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 40px 40px;
 }
 
 .collectible-help {
@@ -140,7 +143,7 @@
     opacity: 0.5;
     transition: opacity 200ms;
     background-image: url(img/question-circle.svg);
-    background-repeat:no-repeat;
+    background-repeat: no-repeat;
     background-position: center center;
     background-size: 20px 20px;
 }

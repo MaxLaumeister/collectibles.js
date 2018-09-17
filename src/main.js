@@ -1,9 +1,7 @@
 // collectibles.js
-
+    
 function CollectiblesJS(config) {
     "use strict";
-    
-    const SCRIPT_DIRECTORY = document.currentScript.src.substring(0, document.currentScript.src.lastIndexOf("/"));
     
     CollectiblesJS.createSecrets = function(secretURL, numShards) {
         numShards = parseInt(numShards, 10);
@@ -141,7 +139,7 @@ function CollectiblesJS(config) {
     <div id="collectible-item-drawer">
         <div id="collectible-item-chest-holder">
             <a id="collectible-secret-link">
-                <img id="collectible-item-chest" src="` + SCRIPT_DIRECTORY + `/img/chest.svg"><br>
+                <div id="collectible-item-chest"></div><br>
                 Click to<br>collect reward!
             </a>
         </div>
