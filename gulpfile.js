@@ -4,11 +4,22 @@ var concat = require('gulp-concat');
 var uglify = require('gulp-uglify-es').default;
 var svgo = require('gulp-svgo');
 var sourcemaps = require('gulp-sourcemaps');
+var header = require('gulp-header');
+
+var pkg = require('./package.json');
+var banner = ['/**',
+  ' * <%= pkg.name %> - <%= pkg.description %>',
+  ' * @version v<%= pkg.version %>',
+  ' * @link <%= pkg.homepage %>',
+  ' * @license <%= pkg.license %>',
+  ' */',
+  ''].join('\n');
 
 gulp.task('sass', function() {
   gulp.src(['node_modules/microtip/microtip.css', 'src/*.css'])
   .pipe(concat('collectibles.min.css'))
   .pipe(sass({outputStyle: 'compressed'}))
+  .pipe(header(banner, { pkg : pkg } ))
   .pipe(gulp.dest('dist'))
 });
 
@@ -17,15 +28,16 @@ gulp.task('js', function() {
   .pipe(concat('collectibles.min.js'))
   .pipe(sourcemaps.init())
     .pipe(uglify())
-   .pipe(sourcemaps.write('.'))
+  .pipe(sourcemaps.write('.'))
+  .pipe(header(banner, { pkg : pkg } ))
   .pipe(gulp.dest('dist'))
 });
 
 gulp.task('img', function() {
-    gulp.src(['img/*', '!img/*.svg'])
+    gulp.src(['!src/img/*.svg', 'src/img/*'])
     .pipe(gulp.dest('dist/img'))
     
-    gulp.src('img/*.svg')
+    gulp.src('src/img/*.svg')
     .pipe(svgo())
     .pipe(gulp.dest('dist/img'))
 });

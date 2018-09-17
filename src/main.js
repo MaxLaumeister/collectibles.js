@@ -1,10 +1,10 @@
-"use strict";
-
-const SCRIPT_DIRECTORY = document.currentScript.src.substring(0, document.currentScript.src.lastIndexOf("/"));
-
-// Collectibles.js
+// collectibles.js
 
 function CollectiblesJS(config) {
+    "use strict";
+    
+    const SCRIPT_DIRECTORY = document.currentScript.src.substring(0, document.currentScript.src.lastIndexOf("/"));
+    
     CollectiblesJS.createSecrets = function(secretURL, numShards) {
         numShards = parseInt(numShards, 10);
         let secretURLHex = secrets.str2hex(secretURL);

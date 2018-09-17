@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Demo - collectibles.js</title>
+    <!-- collectibles.js -->
+    <link rel="stylesheet" type="text/css"  href="node_modules/microtip/microtip.css">
+    <link rel="stylesheet" type="text/css"  href="src/main.css">
+    <script src="node_modules/web-animations-js/web-animations.min.js"></script>
+    <script src="node_modules/secrets.js-grempe/secrets.js"></script>
+    <script src="src/main.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function(e) {
+         new CollectiblesJS({
+             itemVersion: 1,
+             persistent: false,
+             numItems: 5
+         });
+        });
+    </script>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            text-align: center;
+        }
+        div {
+            display: inline-block;
+        }
+    </style>
+  </head>
+  <body>
+    <h1>Collect All 5 Keys!</h1>
+    <div data-keyid="0" class="collectible-item" data-key="80138a896144741192c5c7a6d79233118f3b1418037826488626da7898d9c557117"></div>
+    <div data-keyid="1" class="collectible-item" data-key="802ea11e84f27a465bcd6400b65e0760e13562069e433aa630c24d244ff02220dd2"></div>
+    <div data-keyid="2" class="collectible-item" data-key="8038a58195cc21c2aaca04644e502d29239daa1612b3a32957d2363b46d734de75b"></div>
+    <div data-keyid="3" class="collectible-item" data-key="804ec793ea2dfdb5f3ed6866f307f58a46ac2cf80ca906b17e1d10decb93d3a87f4"></div>
+    <div data-keyid="4" class="collectible-item" data-key="80519ade7a473b6af9d76f0ce7be0618370fdfe17a50f7e86f9dd8f6e42f5f18bdf"></div>
+    <p>For more information, see the <a href="https://www.maxlaumeister.com/collectibles-js/">project page</a>.</p>
+  </body>
+</html>
