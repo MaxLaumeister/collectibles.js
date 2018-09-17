@@ -28,8 +28,8 @@ gulp.task('js', function() {
   .pipe(concat('collectibles.min.js'))
   .pipe(sourcemaps.init())
     .pipe(uglify())
-  .pipe(sourcemaps.write('.'))
   .pipe(header(banner, { pkg : pkg } ))
+  .pipe(sourcemaps.write('.'))
   .pipe(gulp.dest('dist'))
 });
 
