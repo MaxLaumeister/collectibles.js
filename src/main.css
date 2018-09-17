@@ -179,15 +179,15 @@
 }
 
 .collectible-theme-keys .collectible-item[data-keyid="2"] {
-    filter: hue-rotate(71deg) brightness(85%);
+    filter: saturate(70%) hue-rotate(71deg) brightness(85%);
 }
 
 .collectible-theme-keys .collectible-item[data-keyid="3"] {
-    filter: saturate(150%) hue-rotate(176deg);
+    filter: saturate(170%) hue-rotate(176deg);
 }
 
 .collectible-theme-keys .collectible-item[data-keyid="4"] {
-    filter: saturate(178%) hue-rotate(279deg);
+    filter: saturate(238%) hue-rotate(199deg);
 }
 
 @keyframes CollectibleThemeKeysMoveUpDown {
@@ -259,7 +259,7 @@
 }
 
 .collectible-theme-coins .collectible-item[data-keyid="1"] {
-    filter: saturate(150%) brightness(90%);
+    filter: saturate(150%);
 }
 
 .collectible-theme-coins .collectible-item[data-keyid="2"] {
@@ -271,7 +271,7 @@
 }
 
 .collectible-theme-coins .collectible-item[data-keyid="4"] {
-    filter: saturate(178%) hue-rotate(279deg);
+    filter: saturate(88%) hue-rotate(219deg);
 }
 
 @keyframes CollectibleThemeCoinsIdle {
