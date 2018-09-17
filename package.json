@@ -10,7 +10,6 @@
     "homepage": "https://www.maxlaumeister.com/collectibles-js/",
     "author": "Maximillian Laumeister <max@maxlaumeister.com> (https://www.maxlaumeister.com)",
     "dependencies": {
-        "gulp-sourcemaps": "^2.6.4",
         "microtip": "^0.2.2",
         "secrets.js-grempe": "^1.1.0",
         "web-animations-js": "^2.3.1"
@@ -20,6 +19,7 @@
         "gulp-concat": "^2.6.1",
         "gulp-sass": "^4.0.1",
         "gulp-svgo": "^1.5.4",
-        "gulp-uglify-es": "^1.0.4"
+        "gulp-uglify-es": "^1.0.4",
+        "gulp-sourcemaps": "^2.6.4"
     }
 }
