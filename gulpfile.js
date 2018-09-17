@@ -5,6 +5,7 @@ var uglify = require('gulp-uglify-es').default;
 var svgo = require('gulp-svgo');
 var sourcemaps = require('gulp-sourcemaps');
 var header = require('gulp-header');
+var spawn = require('child_process').spawn;
 
 var pkg = require('./package.json');
 var banner = ['/**',
@@ -41,5 +42,11 @@ gulp.task('img', function() {
     .pipe(svgo())
     .pipe(gulp.dest('dist/img'))
 });
+
+gulp.task('npm', function (done) {
+  spawn('npm', ['publish'], { stdio: 'inherit' }).on('close', done);
+});
+
+gulp.task('publish', ['default', 'npm']);
 
 gulp.task('default', ['sass', 'js', 'img']);

@@ -1,29 +1,38 @@
 // collectibles.js
     
+CollectiblesJS.createSecrets = function(secretURL, numShards) {
+    numShards = parseInt(numShards, 10);
+    let secretURLHex = secrets.str2hex(secretURL);
+    let shares = secrets.share(secretURLHex, numShards, numShards);
+    return shares;
+}
+
+CollectiblesJS.redeemSecrets = function(secretsArray) {
+    let secretHex = secrets.combine(secretsArray);
+    let secret = secrets.hex2str(secretHex);
+    return secret;
+}
+
+CollectiblesJS.changeTheme = function(theme) {
+    let newTheme = "collectible-theme-" + theme;
+    let oldTheme = document.body.className.match(/(collectible-theme-)\w+/)[0];
+    document.body.classList.replace(oldTheme, newTheme);
+}
+
 function CollectiblesJS(config) {
     "use strict";
-    
-    CollectiblesJS.createSecrets = function(secretURL, numShards) {
-        numShards = parseInt(numShards, 10);
-        let secretURLHex = secrets.str2hex(secretURL);
-        let shares = secrets.share(secretURLHex, numShards, numShards);
-        return shares;
-    }
-
-    CollectiblesJS.redeemSecrets = function(secretsArray) {
-        let secretHex = secrets.combine(secretsArray);
-        let secret = secrets.hex2str(secretHex);
-        return secret;
-    }
 
     const INSTALL_ID = config.installID || 1;
     const KEY_VERSION = config.itemVersion || 1;
     const STORAGE = config.persistent ? localStorage : sessionStorage;
     const NUM_ITEMS = config.numItems || 5;
+    const THEME = config.theme || "keys";
+    
+    document.body.classList.add("collectible-theme-" + THEME);
     
     function createItemElement(keyid) {
         let el = document.createElement("div");
-        el.className = "collectible-item collectible-item-collected collectible-item-" + keyid;
+        el.className = "collectible-item collectible-item-collected";
         el.dataset.keyid = keyid;
         let innerel = document.createElement("div");
         innerel.className = "collectible-item-inner";
@@ -84,7 +93,6 @@ function CollectiblesJS(config) {
         inner.className = "collectible-item-inner";
         item.appendChild(inner);
         
-        item.classList.add("collectible-item-" + item.dataset.keyid);
         item.title = "Click me!";
         item.alt = "Collectible item (Click me!)";
         if (!initialCollectedItems[item.dataset.keyid]) item.style.visibility = "visible"; // Show only uncollected keys
@@ -163,7 +171,7 @@ function CollectiblesJS(config) {
     
     // Add question mark to holder
     
-    holder.insertAdjacentHTML('beforeend', '<div class="collectible-help" aria-label="Find all 5 keys on this website!" data-microtip-position="right" role="tooltip"></div>');
+    holder.insertAdjacentHTML('beforeend', '<div class="collectible-help" aria-label="Find all ' + NUM_ITEMS + ' collectibles on this website!" data-microtip-position="right" role="tooltip"></div>');
     
     // Upon initial page load, user may already have all items
     // So we do this check after initialization
