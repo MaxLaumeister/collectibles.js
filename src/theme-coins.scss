@@ -1,0 +1,76 @@
+.collectible-theme-coins {
+
+    .collectible-item .collectible-item-inner {
+        animation: CollectibleThemeCoinsIdle 0.6s infinite steps(1);
+        transition: transform 200ms;
+    }
+
+    .collectible-item:hover .collectible-item-inner {
+        animation: CollectibleThemeCoinsIdle 0.45s infinite steps(1);
+        transform: translateY(-3px);
+    }
+
+    .collectible-item::before {
+        content: '';
+        position: absolute;
+        left: 30%;
+        right: 30%;
+        bottom: -1px;
+        height: 1px;
+        background: black;
+        border-radius: 50%;
+        filter: blur(2px);
+        pointer-events: none;
+    }
+
+    .collectible-item:hover::before {
+        background: gray;
+    }
+
+    .collectible-item-spot::before {
+        filter: grayscale(100%) contrast(10%) brightness(160%);
+    }
+
+    .collectible-item .collectible-item-inner, .collectible-item-spot::before {
+        background-image: url(img/coin-ani.png);
+        background-position: 0 0;
+        width: 16px;
+        height: 16px;
+        top: calc(50% - 8px);
+        left: calc(50% - 8px);
+    }
+
+    .collectible-item-collected .collectible-item-inner {
+        animation: none;
+    }
+
+    .collectible-item[data-keyid="0"] {
+        filter: saturate(150%) hue-rotate(304deg);
+    }
+
+    .collectible-item[data-keyid="1"] {
+        filter: saturate(150%);
+    }
+
+    .collectible-item[data-keyid="2"] {
+        filter: hue-rotate(71deg) brightness(85%);
+    }
+
+    .collectible-item[data-keyid="3"] {
+        filter: saturate(150%) hue-rotate(176deg);
+    }
+
+    .collectible-item[data-keyid="4"] {
+        filter: saturate(88%) hue-rotate(219deg);
+    }
+
+}
+
+@keyframes CollectibleThemeCoinsIdle {
+	0% {background-position:0px 0px;}
+	16.67% {background-position:-16px 0px;}
+	33.33% {background-position:-32px 0px;}
+	50% {background-position:-48px 0px;}
+	66.67% {background-position:-64px 0px;}
+	83.33%, 100% {background-position:-80px 0px;}
+}

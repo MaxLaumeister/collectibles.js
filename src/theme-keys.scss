@@ -1,0 +1,78 @@
+.collectible-theme-keys {
+
+    .collectible-item .collectible-item-inner {
+        animation: CollectibleThemeKeysMoveUpDown 2s ease infinite;
+        background-image: url(img/kenney-key.svg);
+        transition: transform 200ms;
+    }
+
+    .collectible-item:hover .collectible-item-inner {
+        transform: translateY(-3px);
+        animation: none;
+    }
+
+    .collectible-item::before {
+        content: '';
+        position: absolute;
+        left: 30%;
+        right: 30%;
+        bottom: -1px;
+        height: 1px;
+        background: gray;
+        border-radius: 50%;
+        filter: blur(2px);
+        animation: CollectibleThemeKeysFadeInOut 2s ease infinite;
+        pointer-events: none;
+    }
+
+    .collectible-item:hover::before {
+        animation: none;
+    }
+
+    .collectible-item-spot::before {
+        background-image: url(img/kenney-key.svg);
+    }
+
+    .collectible-item-collected .collectible-item-inner {
+        animation: none;
+    }
+
+    .collectible-item[data-keyid="0"] {
+        filter: saturate(150%) hue-rotate(304deg);
+    }
+
+    .collectible-item[data-keyid="1"] {
+        filter: saturate(150%) brightness(90%);
+    }
+
+    .collectible-item[data-keyid="2"] {
+        filter: saturate(70%) hue-rotate(71deg) brightness(85%);
+    }
+
+    .collectible-item[data-keyid="3"] {
+        filter: saturate(170%) hue-rotate(176deg);
+    }
+
+    .collectible-item[data-keyid="4"] {
+        filter: saturate(238%) hue-rotate(199deg);
+    }
+
+}
+
+@keyframes CollectibleThemeKeysMoveUpDown {
+  0%, 100% {
+    bottom: 0;
+  }
+  50% {
+    bottom: 3px;
+  }
+}
+
+@keyframes CollectibleThemeKeysFadeInOut {
+  0%, 100% {
+    background: black;
+  }
+  50% {
+    background: gray;
+  }
+}

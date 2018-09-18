@@ -6,6 +6,7 @@ var svgo = require('gulp-svgo');
 var sourcemaps = require('gulp-sourcemaps');
 var header = require('gulp-header');
 var spawn = require('child_process').spawn;
+var plumber = require('gulp-plumber');
 
 var pkg = require('./package.json');
 var banner = ['/**',
@@ -16,31 +17,52 @@ var banner = ['/**',
   ' */',
   ''].join('\n');
 
-gulp.task('sass', function() {
-  gulp.src(['node_modules/microtip/microtip.css', 'src/*.css'])
+function sass_task(minify) {
+  gulp.src(['node_modules/microtip/microtip.css', 'src/main.scss', 'src/theme-*.scss'])
+  .pipe(plumber())
   .pipe(concat('collectibles.min.css'))
-  .pipe(sass({outputStyle: 'compressed'}))
+  .pipe(sass({outputStyle: minify? 'compressed' : 'expanded'}))
   .pipe(header(banner, { pkg : pkg } ))
   .pipe(gulp.dest('dist'))
+}
+
+gulp.task('sassdev', function() {
+  sass_task(false);
 });
 
-gulp.task('js', function() {
-  gulp.src(['node_modules/web-animations-js/web-animations.min.js', 'node_modules/secrets.js-grempe/secrets.js', 'src/*.js'])
-  .pipe(concat('collectibles.min.js'))
+gulp.task('sassmin', function() {
+  sass_task(true);
+});
+
+var jsfiles = ['node_modules/web-animations-js/web-animations.min.js', 'node_modules/secrets.js-grempe/secrets.js', 'src/*.js'];
+
+gulp.task('jsdev', function() {
+  gulp.src(jsfiles)
+  .pipe(plumber())
   .pipe(sourcemaps.init())
-    .pipe(uglify())
-  .pipe(header(banner, { pkg : pkg } ))
+    .pipe(concat('collectibles.min.js'))
+    .pipe(header(banner, { pkg : pkg } ))
   .pipe(sourcemaps.write('.'))
   .pipe(gulp.dest('dist'))
 });
 
+gulp.task('jsmin', function() {
+  gulp.src(jsfiles)
+  .pipe(plumber())
+  .pipe(concat('collectibles.min.js'))
+  .pipe(uglify())
+  .pipe(header(banner, { pkg : pkg } ))
+  .pipe(gulp.dest('dist'))
+});
+
 gulp.task('img', function() {
-    gulp.src(['!src/img/*.svg', 'src/img/*'])
-    .pipe(gulp.dest('dist/img'))
-    
-    gulp.src('src/img/*.svg')
-    .pipe(svgo())
-    .pipe(gulp.dest('dist/img'))
+  gulp.src(['!src/img/*.svg', 'src/img/*'])
+  .pipe(plumber())
+  .pipe(gulp.dest('dist/img'))
+  
+  gulp.src('src/img/*.svg')
+  .pipe(svgo())
+  .pipe(gulp.dest('dist/img'))
 });
 
 gulp.task('npm', function (done) {
@@ -49,4 +71,5 @@ gulp.task('npm', function (done) {
 
 gulp.task('publish', ['default', 'npm']);
 
-gulp.task('default', ['sass', 'js', 'img']);
+gulp.task('default', ['sassmin', 'jsmin', 'img']);
+gulp.task('dev', ['sassdev', 'jsdev', 'img']);

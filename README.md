@@ -20,7 +20,7 @@ You only need to recompile the minified js/css bundles if you make changes to th
 
 3. Run `npm install`
 
-4. Run `gulp`
+4. Run `gulp` for a minified production build, or `gulp dev` for a concatted dev build with sourcemaps.
 
 ## Licenses
 

@@ -1,0 +1,132 @@
+.collectible-item {
+    visibility: hidden;
+    position: relative;
+    cursor: pointer;
+    width: 22px;
+    height: 22px;
+    z-index: 1;
+}
+
+.collectible-item-inner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-repeat: no-repeat;
+    background-position: center center;
+    pointer-events: none;
+}
+
+.collectible-item-collected {
+    visibility: visible;
+    position: absolute;
+    left: 0;
+    top: 0;
+    cursor: default;
+}
+
+.collectible-item-collected::before {
+    display: none;
+}
+
+.collectible-item-spot::before {
+    content: "";
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-repeat: no-repeat;
+    background-position: center center;
+    filter: grayscale(100%);
+}
+
+#collectible-item-drawer {
+    display: flex;
+    position: fixed;
+    left: -230px;
+    top: calc(50% - 55px);
+    width: 200px;
+    background: #ddd;
+    border-radius: 3px;
+    transition: transform 500ms ease;
+}
+
+#collectible-item-drawer::before {
+    content: "»";
+    text-align: right;
+    position: absolute;
+    right: -15px;
+    bottom: 0;
+    width: 30px;
+    height: 22px;
+    background: #ddd;
+    border-radius: 3px;
+    padding-right: 3px;
+    color: #999;
+}
+
+#collectible-item-drawer.someItems {
+    transform: translateX(30px);
+}
+
+#collectible-item-drawer.someItems:hover, #collectible-item-drawer.presenting {
+    transform: translateX(60px);
+}
+
+#collectible-item-drawer.allItems {
+    transform: translateX(230px);
+}
+
+#collectible-item-holder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+}
+
+#collectible-item-holder > * {
+    position: relative;
+    padding: 2px 0;
+    width: 22px;
+    height: 22px;
+}
+
+#collectible-item-chest-holder {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+#collectible-item-chest {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    background-image: url(img/chest.svg);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 40px 40px;
+}
+
+.collectible-help {
+    object-fit: contain;
+    margin-bottom: 22px !important;
+    cursor: pointer;
+    margin: 4px 0;
+    opacity: 0.5;
+    transition: opacity 200ms;
+    background-image: url(img/question-circle.svg);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 20px 20px;
+}
+
+.collectible-help:hover {
+    opacity: 1;
+}
