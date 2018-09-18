@@ -1,8 +1,8 @@
 # collectibles.js
 
-![preview](dist/img/keys-ani-demo.gif)
+![keys preview](dist/img/keys-ani-demo.gif) ![coins preview](dist/img/coins-ani-demo.gif)
 
-`collectibles.js` is a javascript library for adding collectible keys to your website. Once the user finds and clicks on all collectible keys on your website, they will be greeted with a secret victory page with a URL of your choosing.
+`collectibles.js` is a javascript library for adding collectible items to your website. Once the user finds and clicks on all collectible items on your website, they will be greeted with a secret victory page with a URL of your choosing.
 
 ## Demo, Installation and Usage
 
