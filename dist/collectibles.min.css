@@ -1,6 +1,6 @@
 /**
  * collectibles.js - Library for adding collectible items to your website
- * @version v0.2.0
+ * @version v0.2.1
  * @link https://www.maxlaumeister.com/collectibles-js/
  * @license MIT
  */
