@@ -65,11 +65,5 @@ gulp.task('img', function() {
   .pipe(gulp.dest('dist/img'))
 });
 
-gulp.task('npm', function (done) {
-  spawn('npm', ['publish'], { stdio: 'inherit' }).on('close', done);
-});
-
-gulp.task('publish', ['default', 'npm']);
-
 gulp.task('default', ['sassmin', 'jsmin', 'img']);
 gulp.task('dev', ['sassdev', 'jsdev', 'img']);

@@ -9,6 +9,9 @@
     "repository": "https://github.com/MaxLaumeister/collectibles.js.git",
     "homepage": "https://www.maxlaumeister.com/collectibles-js/",
     "author": "Maximillian Laumeister <max@maxlaumeister.com> (https://www.maxlaumeister.com)",
+    "scripts": {
+      "version": "grunt"
+    }
     "dependencies": {
         "microtip": "^0.2.2",
         "secrets.js-grempe": "^1.1.0",
