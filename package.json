@@ -10,7 +10,7 @@
     "homepage": "https://www.maxlaumeister.com/collectibles-js/",
     "author": "Maximillian Laumeister <max@maxlaumeister.com> (https://www.maxlaumeister.com)",
     "scripts": {
-        "version": "gulp"
+        "version": "gulp && git add -A ."
     },
     "dependencies": {
         "microtip": "^0.2.2",
