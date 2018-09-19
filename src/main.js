@@ -27,8 +27,10 @@ function CollectiblesJS(config) {
     const STORAGE = config.persistent ? localStorage : sessionStorage;
     const NUM_ITEMS = config.numItems || 5;
     const THEME = config.theme || "keys";
+    const POSITION = config.position || "left";
     
     document.body.classList.add("collectible-theme-" + THEME);
+    document.body.classList.add("collectible-position-" + POSITION);
     
     function createItemElement(keyid) {
         let el = document.createElement("div");
@@ -171,7 +173,12 @@ function CollectiblesJS(config) {
     
     // Add question mark to holder
     
-    holder.insertAdjacentHTML('beforeend', '<div class="collectible-help" aria-label="Find all ' + NUM_ITEMS + ' collectibles on this website!" data-microtip-position="right" role="tooltip"></div>');
+    let microtipPosition = {
+      left: "right",
+      right: "left"
+    }
+    
+    holder.insertAdjacentHTML('beforeend', '<div class="collectible-help" aria-label="Find all ' + NUM_ITEMS + ' collectibles on this website!" data-microtip-position="' + microtipPosition[POSITION] + '" role="tooltip"></div>');
     
     // Upon initial page load, user may already have all items
     // So we do this check after initialization

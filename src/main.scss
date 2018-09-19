@@ -46,7 +46,6 @@
 #collectible-item-drawer {
     display: flex;
     position: fixed;
-    left: -230px;
     top: calc(50% - 55px);
     width: 200px;
     background: #ddd;
@@ -55,29 +54,68 @@
 }
 
 #collectible-item-drawer::before {
-    content: "»";
-    text-align: right;
-    position: absolute;
-    right: -15px;
-    bottom: 0;
-    width: 30px;
-    height: 22px;
-    background: #ddd;
-    border-radius: 3px;
-    padding-right: 3px;
-    color: #999;
+      position: absolute;
+      bottom: 0;
+      width: 30px;
+      height: 22px;
+      background: #ddd;
+      border-radius: 3px;
+      color: #999;
+  }
+
+.collectible-position-left {
+
+  #collectible-item-drawer {
+      left: -230px;
+  }
+
+  #collectible-item-drawer::before {
+      content: "»";
+      text-align: right;
+      right: -15px;
+      padding-right: 3px;
+  }
+
+  #collectible-item-drawer.someItems {
+      transform: translateX(30px);
+  }
+
+  #collectible-item-drawer.someItems:hover, #collectible-item-drawer.presenting {
+      transform: translateX(60px);
+  }
+
+  #collectible-item-drawer.allItems {
+      transform: translateX(230px);
+  }
+
 }
 
-#collectible-item-drawer.someItems {
-    transform: translateX(30px);
-}
+.collectible-position-right {
 
-#collectible-item-drawer.someItems:hover, #collectible-item-drawer.presenting {
-    transform: translateX(60px);
-}
+  #collectible-item-drawer {
+      right: -230px;
+      flex-direction: row-reverse;
+  }
 
-#collectible-item-drawer.allItems {
-    transform: translateX(230px);
+  #collectible-item-drawer::before {
+      content: "«";
+      text-align: left;
+      left: -15px;
+      padding-left: 3px;
+  }
+
+  #collectible-item-drawer.someItems {
+      transform: translateX(-30px);
+  }
+
+  #collectible-item-drawer.someItems:hover, #collectible-item-drawer.presenting {
+      transform: translateX(-60px);
+  }
+
+  #collectible-item-drawer.allItems {
+      transform: translateX(-230px);
+  }
+
 }
 
 #collectible-item-holder {
