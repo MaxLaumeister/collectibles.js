@@ -2,25 +2,27 @@
     
 CollectiblesJS.createSecrets = function(secretURL, numShards) {
     numShards = parseInt(numShards, 10);
-    let secretURLHex = secrets.str2hex(secretURL);
-    let shares = secrets.share(secretURLHex, numShards, numShards);
+    const secretURLHex = secrets.str2hex(secretURL);
+    const shares = secrets.share(secretURLHex, numShards, numShards);
     return shares;
-}
+};
 
 CollectiblesJS.redeemSecrets = function(secretsArray) {
-    let secretHex = secrets.combine(secretsArray);
-    let secret = secrets.hex2str(secretHex);
+    const secretHex = secrets.combine(secretsArray);
+    const secret = secrets.hex2str(secretHex);
     return secret;
-}
+};
 
 CollectiblesJS.changeTheme = function(theme) {
-    let newTheme = "collectible-theme-" + theme;
-    let oldTheme = document.body.className.match(/(collectible-theme-)\w+/)[0];
+    const newTheme = "collectible-theme-" + theme;
+    const oldTheme = document.body.className.match(/(collectible-theme-)\w+/)[0];
     document.body.classList.replace(oldTheme, newTheme);
-}
+};
 
 function CollectiblesJS(config) {
     "use strict";
+    
+    // Consts from config
 
     const INSTALL_ID = config.installID || 1;
     const KEY_VERSION = config.itemVersion || 1;
@@ -29,21 +31,25 @@ function CollectiblesJS(config) {
     const THEME = config.theme || "keys";
     const POSITION = config.position || "left";
     
+    // Consts from DOM
+    
+    
+    
     document.body.classList.add("collectible-theme-" + THEME);
     document.body.classList.add("collectible-position-" + POSITION);
     
     function createItemElement(keyid) {
-        let el = document.createElement("div");
+        const el = document.createElement("div");
         el.className = "collectible-item collectible-item-collected";
         el.dataset.keyid = keyid;
-        let innerel = document.createElement("div");
+        const innerel = document.createElement("div");
         innerel.className = "collectible-item-inner";
         el.appendChild(innerel);
         return el;
     }
     
     function getCollectedItems() {
-        let obj = JSON.parse(STORAGE.getItem("collectible-js-items-" + INSTALL_ID));
+        const obj = JSON.parse(STORAGE.getItem("collectible-js-items-" + INSTALL_ID));
         if (!obj || obj.version < KEY_VERSION) return (new Array(NUM_ITEMS)).fill(false);
         return obj.items;
     }
@@ -68,8 +74,8 @@ function CollectiblesJS(config) {
     function notifyItemsChanged(itemArray) {
         // If all items are collected, grant secret
         function grantSecret(itemArray) {
-            let secret = CollectiblesJS.redeemSecrets(itemArray);
-            let secretLinkEl = document.getElementById("collectible-secret-link");
+            const secret = CollectiblesJS.redeemSecrets(itemArray);
+            const secretLinkEl = document.getElementById("collectible-secret-link");
             secretLinkEl.href = secret;
             secretLinkEl.addEventListener("click", function(e) {
                 STORAGE.removeItem("collectible-js-items-" + INSTALL_ID); // User has redeemed their keys!
@@ -85,13 +91,55 @@ function CollectiblesJS(config) {
         }
     }
     
-    let initialCollectedItems = getCollectedItems();
+    let presentingTimeout;
+    // Runs when a collectible item element is clicked
+    function itemClickHandler(e) {
+        const item = e.target;
+        const keyid = item.dataset.keyid;
+        const coin_offset = item.getBoundingClientRect();
+        const spot_offset = itemSpots[keyid].getBoundingClientRect();
+        const coin_spot_offset = {top: coin_offset.top - spot_offset.top, left: coin_offset.left - spot_offset.left};
+        
+        const itemDup = item.cloneNode(true);
+        item.style.visibility = "hidden";
+        itemDup.removeAttribute("style");
+        itemDup.style.visibility = "visible";
+        itemDup.style.position = "absolute";
+        itemDup.style.top = "0";
+        itemDup.style.left = "0";
+        itemDup.style["pointer-events"] = "none";
+        itemDup.classList.add("collectible-item-collected");
+        itemSpots[keyid].appendChild(itemDup);
+        
+        itemDup.animate({
+            transform: ["translate(" + coin_spot_offset.left + "px, " + coin_spot_offset.top + "px)", "none"]
+        }, {
+            duration: 500,
+            easing: "ease-in-out"
+        });
+        
+        // Record key in storage
+        
+        const collectedItems = getCollectedItems();
+        collectedItems[keyid] = itemDup.dataset.key;
+        setCollectedItems(collectedItems);
+        
+        notifyItemsChanged(collectedItems);
+        
+        drawer.classList.add("presenting");
+        window.clearTimeout(presentingTimeout);
+        presentingTimeout = window.setTimeout(function() {
+            drawer.classList.remove("presenting");
+        }, 3000);
+    }
+    
+    const initialCollectedItems = getCollectedItems();
     
     for (let item of Array.from(document.getElementsByClassName("collectible-item"))) {
         
         // Initialize element
         
-        let inner = document.createElement("div");
+        const inner = document.createElement("div");
         inner.className = "collectible-item-inner";
         item.appendChild(inner);
         
@@ -101,51 +149,13 @@ function CollectiblesJS(config) {
         
         // Add click behavior
         
-        var presentingTimeout;
+        item.addEventListener("click", itemClickHandler);
         
-        item.addEventListener("click", function(e) {
-            let keyid = item.dataset.keyid;
-            let coin_offset = item.getBoundingClientRect();
-            let spot_offset = itemSpots[keyid].getBoundingClientRect();
-            let coin_spot_offset = {top: coin_offset.top - spot_offset.top, left: coin_offset.left - spot_offset.left};
-            
-            let itemDup = item.cloneNode(true);
-            item.style.visibility = "hidden";
-            itemDup.removeAttribute("style");
-            itemDup.style.visibility = "visible";
-            itemDup.style.position = "absolute";
-            itemDup.style.top = "0";
-            itemDup.style.left = "0";
-            itemDup.style["pointer-events"] = "none";
-            itemDup.classList.add("collectible-item-collected");
-            itemSpots[keyid].appendChild(itemDup);
-            
-            itemDup.animate({
-                transform: ["translate(" + coin_spot_offset.left + "px, " + coin_spot_offset.top + "px)", "none"]
-            }, {
-                duration: 500,
-                easing: "ease-in-out"
-            });
-            
-            // Record key in storage
-            
-            let collectedItems = getCollectedItems();
-            collectedItems[keyid] = itemDup.dataset.key;
-            setCollectedItems(collectedItems);
-            
-            notifyItemsChanged(collectedItems);
-            
-            drawer.classList.add("presenting");
-            window.clearTimeout(presentingTimeout);
-            presentingTimeout = window.setTimeout(function() {
-                drawer.classList.remove("presenting");
-            }, 3000);
-        });
     }
     
     // Create drawer
     
-    let drawerStr =`
+    const drawerStr =`
     <div id="collectible-item-drawer">
         <div id="collectible-item-chest-holder">
             <a id="collectible-secret-link">
@@ -157,13 +167,13 @@ function CollectiblesJS(config) {
         </div>
     </div>`;
     document.body.insertAdjacentHTML('beforeend', drawerStr);
-    let drawer = document.getElementById("collectible-item-drawer");
-    let holder = document.getElementById("collectible-item-holder");
+    const drawer = document.getElementById("collectible-item-drawer");
+    const holder = document.getElementById("collectible-item-holder");
     
-    let itemSpots = [];
+    const itemSpots = [];
     for (let i = 0; i < NUM_ITEMS; i++) {
         // Create spot
-        let itemSpot = document.createElement("div");
+        const itemSpot = document.createElement("div");
         itemSpot.className = "collectible-item-spot";
         holder.appendChild(itemSpot);
         itemSpots.push(itemSpot);
@@ -173,10 +183,10 @@ function CollectiblesJS(config) {
     
     // Add question mark to holder
     
-    let microtipPosition = {
+    const microtipPosition = {
       left: "right",
       right: "left"
-    }
+    };
     
     holder.insertAdjacentHTML('beforeend', '<div class="collectible-help" aria-label="Find all ' + NUM_ITEMS + ' collectibles on this website!" data-microtip-position="' + microtipPosition[POSITION] + '" role="tooltip"></div>');
     

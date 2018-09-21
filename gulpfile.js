@@ -7,6 +7,7 @@ var sourcemaps = require('gulp-sourcemaps');
 var header = require('gulp-header');
 var spawn = require('child_process').spawn;
 var plumber = require('gulp-plumber');
+var jshint = require('gulp-jshint');
 
 var pkg = require('./package.json');
 var banner = ['/**',
@@ -35,6 +36,12 @@ gulp.task('sassmin', function() {
 });
 
 var jsfiles = ['node_modules/web-animations-js/web-animations.min.js', 'node_modules/secrets.js-grempe/secrets.js', 'src/*.js'];
+
+gulp.task('lint', function() {
+  return gulp.src('src/*.js')
+    .pipe(jshint({esversion: 6}))
+    .pipe(jshint.reporter('default'));
+});
 
 gulp.task('jsdev', function() {
   gulp.src(jsfiles)
@@ -66,4 +73,4 @@ gulp.task('img', function() {
 });
 
 gulp.task('default', ['sassmin', 'jsmin', 'img']);
-gulp.task('dev', ['sassdev', 'jsdev', 'img']);
+gulp.task('dev', ['lint', 'sassdev', 'jsdev', 'img']);
