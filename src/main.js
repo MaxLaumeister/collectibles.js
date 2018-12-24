@@ -30,10 +30,7 @@ function CollectiblesJS(config) {
     const NUM_ITEMS = config.numItems || 5;
     const THEME = config.theme || "keys";
     const POSITION = config.position || "left";
-    
-    // Consts from DOM
-    
-    
+    const CALLBACK = config.keyCollectedCallback || null;
     
     document.body.classList.add("collectible-theme-" + THEME);
     document.body.classList.add("collectible-position-" + POSITION);
@@ -131,6 +128,10 @@ function CollectiblesJS(config) {
         presentingTimeout = window.setTimeout(function() {
             drawer.classList.remove("presenting");
         }, 3000);
+        
+        // Call callback
+        
+        if (CALLBACK) CALLBACK(keyid);
     }
     
     const initialCollectedItems = getCollectedItems();
