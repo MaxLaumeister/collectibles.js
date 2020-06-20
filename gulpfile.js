@@ -35,7 +35,7 @@ gulp.task('sassmin', function() {
   sass_task(true);
 });
 
-var jsfiles = ['node_modules/web-animations-js/web-animations.min.js', 'node_modules/secrets.js-grempe/secrets.js', 'src/*.js'];
+var jsfiles = ['node_modules/secrets.js-grempe/secrets.js', 'src/*.js'];
 
 gulp.task('lint', function() {
   return gulp.src('src/*.js')

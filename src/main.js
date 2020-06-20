@@ -108,12 +108,14 @@ function CollectiblesJS(config) {
         itemDup.classList.add("collectible-item-collected");
         itemSpots[keyid].appendChild(itemDup);
         
-        itemDup.animate({
-            transform: ["translate(" + coin_spot_offset.left + "px, " + coin_spot_offset.top + "px)", "none"]
-        }, {
-            duration: 500,
-            easing: "ease-in-out"
-        });
+        if (itemDup.animate) {
+            itemDup.animate({
+                transform: ["translate(" + coin_spot_offset.left + "px, " + coin_spot_offset.top + "px)", "none"]
+            }, {
+                duration: 500,
+                easing: "ease-in-out"
+            });
+        }
         
         // Record key in storage
         
